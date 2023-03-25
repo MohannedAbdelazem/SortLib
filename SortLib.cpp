@@ -179,13 +179,59 @@ void mergeSort(T arr[], int l, int r){
 }
 
 //Quick Sort
+/*   Basic info:
+*       Best case: O(nlogn)
+*       Average case: O(nlogn)
+*       Worst case: O(nlogn)
+*       Space complexity: O(1)
+*       (As for the merge function complexity is O(n))
+*/
+/*
+*   Description:
+*       Like the merge sort, it works by the concept of divide and conquer, this algorithms' idea is that it places
+*       elements in its' suitable position. Since I didn't sleep at all I might leave the description at that but I'd
+*       reccomend you watch youtube for it.
+*/
+template <typename T>
+int partition(T arr[], int l, int h)
+{
+	T p = arr[l];
+	int i = l;
+	int j = h;
+	while (i < j)
+	{
+		do
+		{
+			i++;
+		} while (arr[i] <= p);
+		do
+		{
+			j--;
+		} while (arr[j] > p);
 
+		if (i < j)
+		    Swap(arr[i], arr[j]);
+	}
+	Swap(arr[l], arr[j]);
+	return j;
+}
+template <typename T>
+void quickSort(T arr[], int l, int h)
+{
+
+	if (l < h) {
+		int piv = partition(arr, l, h);
+		quickSort(arr, l, piv);
+		quickSort(arr, piv + 1, h);
+	}
+
+}
 
 
 int main(){
 
     int arr[] = {33, 12, 11, 6, 0};
-    mergeSort(arr, 0, 4);
+    quickSort(arr, 0, 5);
     for(int i = 0;i< 5; i++){
         cout << arr[i] << endl;
     }
