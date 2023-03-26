@@ -184,7 +184,6 @@ void mergeSort(T arr[], int l, int r){
 *       Average case: O(nlogn)
 *       Worst case: O(nlogn)
 *       Space complexity: O(1)
-*       (As for the merge function complexity is O(n))
 */
 /*
 *   Description:
@@ -227,12 +226,102 @@ void quickSort(T arr[], int l, int h)
 
 }
 
+//Heap Sort
+/*   Basic info:
+*       Best case: O(nlogn)
+*       Average case: O(nlogn)
+*       Worst case: O(nlogn)
+*       Space complexity: O(1)
+*/
+/*
+*   Description:
+*       This sorting algorithms uses the concept of trees
+*       in it so you kinda need to understand basically what are the complete binary tree.
+*/
+template<typename T>
+void heapify(T *arr,int n,int i)
+{
+int l=2*i+1;
+int r=2*i+2;
+int max=i;
+if(l<n&&arr[l]>arr[max])
+max=l;
+if(r<n&&arr[r]>arr[max])
+max=r;
+
+if(max != i){
+swap(arr[i],arr[max]);
+heapify(arr,n,max);
+}
+}
+template<typename T>
+void buildHeap(T *arr,int n)
+{
+	for (int i = n / 2 - 1; i >= 0; i--)
+		heapify(arr, n, i);
+}
+template<typename T>
+void heapSort(T *arr, int n)
+{
+
+	buildHeap(arr, n);
+	for (int i = n-1; i >=0; i--)
+	{
+		Swap(arr[0], arr[i]);
+		heapify(arr, i, 0);
+	}
+
+}
+
+//Count Sort
+/*   Basic info:
+*       Best case: O(n+k)
+*       Average case: O(n+k)
+*       Worst case: O(n+k)
+*       Space complexity: O(n+k)
+*/
+/*
+*   Description:
+*       Count sort is a stable array which works with only positive numbers
+*       The idea of count sort is that you have an array which have a range of numbers 
+*       You can choose whatever range you want as long as it is bigger than max value
+*       after that make an array of the selected size 'Size' equals to zero, after that 
+*       increase all the elements you have by it's value as an index.
+*/
+template <typename T>
+void countSort(T arr[], int size){
+    T max = arr[0];
+    for(int i = 1;i<size;i++){
+        if(max < arr[i])
+            max = arr[i];
+    }
+    max+=1;
+    T count[max] = {0};
+    T output[max];
+    for(int i = 0; i < size;i++){
+        count[arr[i]]++;
+    }
+    for(int i = 1;i <= max;i++){
+        count[i] += count[i-1];
+    }
+      for (int i = size - 1; i >= 0; i--) {  
+        output[count[arr[i]] - 1] = arr[i];  
+        count[arr[i]]--;
+    }  
+    for(int i = 0;i<size;i++){
+        arr[i] = output[i];
+    }
+    
+
+    
+}
+
 
 int main(){
 
-    int arr[] = {33, 12, 11, 6, 0};
-    quickSort(arr, 0, 5);
-    for(int i = 0;i< 5; i++){
+    int arr[] = {33, 12, 6, 11, 6, 0};
+    countSort(arr, 6);
+    for(int i = 0;i< 6; i++){
         cout << arr[i] << endl;
     }
     return 0;
